@@ -37,6 +37,7 @@ public class Ball : MonoBehaviour
     private float _destroyPeriod = 0f;
     private float _destroyInterval = 0.1f;
     private List<float> lsty;
+    private List<float> intervalLst = new List<float>();
     private float period = 0.0f;
     public float interval = 0.25f;
     private bool sent = false;
@@ -56,7 +57,7 @@ public class Ball : MonoBehaviour
                 var graph = GameObject.FindGameObjectsWithTag("Graph")[0].GetComponent<WindowGraph>();
                 if (graph != null)
                 {
-                    graph.ShowGraph(lsty, lsty.Max());
+                    graph.ShowGraph(lsty, intervalLst, lsty.Max());
                 }
                 sent = true;
             }
@@ -67,6 +68,14 @@ public class Ball : MonoBehaviour
             {
                 Debug.Log("Position Y: " + transform.position.y);
                 lsty.Add(transform.position.y);
+                if (intervalLst.Count == 0)
+                {
+                    intervalLst.Add(0.0f);
+                }
+                else
+                {
+                    intervalLst.Add(intervalLst.Last() + interval);
+                }
                 period = 0;
             }
             period += Time.deltaTime;

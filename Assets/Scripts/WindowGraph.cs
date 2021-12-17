@@ -11,6 +11,7 @@ public class WindowGraph : MonoBehaviour
     private RectTransform graphContainer;
     private RectTransform labelTemplateX;
     private RectTransform labelTemplateY;
+    private List<RectTransform> labelList = new List<RectTransform>();
     void Awake()
     {
         graphContainer = transform.Find("graphContainer").GetComponent<RectTransform>();
@@ -34,26 +35,8 @@ public class WindowGraph : MonoBehaviour
         rectTransform.anchorMax = new Vector2(0, 0);
         return gameObject;
     }
-    public void ShowGraph(List<float> valueList, float ymax = 100f)
+    public void ShowGraph(List<float> valueList, List<float> labels, float ymax = 100f)
     {
-
-        if (labelTemplateX == null)
-        {
-            Debug.Log("X NULL");
-        }
-        else
-        {
-            Debug.Log("X GUD");
-        }
-        if (labelTemplateY == null)
-        {
-            Debug.Log("Y NULL");
-        }
-        else
-        {
-            Debug.Log("Y GUD");
-        }
-
         ClearDataPoints();
         float graphHeight = graphContainer.sizeDelta.y;
         float graphWidth = graphContainer.sizeDelta.x;
@@ -74,7 +57,19 @@ public class WindowGraph : MonoBehaviour
             labelX.SetParent(graphContainer);
             labelX.gameObject.SetActive(true);
             labelX.anchoredPosition = new Vector2(xpos, -2f);
-            labelX.GetComponent<Text>().text = i.ToString();
+            labelX.GetComponent<Text>().text = labels[i].ToString("0.0");
+            labelList.Add(labelX);
+        }
+        int separatorCount = 10;
+        for (int i = 0; i < separatorCount; i++)
+        {
+            RectTransform labelY = Instantiate(labelTemplateX);
+            labelY.SetParent(graphContainer);
+            labelY.gameObject.SetActive(true);
+            float normalizedVal = i * 1f / separatorCount;
+            labelY.anchoredPosition = new Vector2(-10f, normalizedVal * graphHeight + 7f);
+            labelY.GetComponent<Text>().text = Mathf.RoundToInt(normalizedVal * ymax).ToString();
+            labelList.Add(labelY);
         }
     }
     private void ClearDataPoints()
@@ -90,6 +85,11 @@ public class WindowGraph : MonoBehaviour
         foreach (var c in connections)
         {
             Destroy(c.gameObject);
+        }
+        foreach (var c in labelList)
+        {
+            // Destroy(c.gameObject);
+            c.gameObject.SetActive(false);
         }
         // var circles = transform.Find("circle");
     }
