@@ -76,6 +76,11 @@ public class Ball : MonoBehaviour
                 {
                     intervalLst.Add(intervalLst.Last() + interval);
                 }
+                var graph = GameObject.FindGameObjectsWithTag("Graph")[0].GetComponent<WindowGraph>();
+                if (graph != null)
+                {
+                    graph.ShowGraph(lsty, intervalLst, lsty.Max());
+                }
                 period = 0;
             }
             period += Time.deltaTime;
