@@ -106,6 +106,9 @@ public class Cannon : MonoBehaviour
     [SerializeField] private float _minRot;
     [SerializeField] private float _maxRot;
     private Ball spawned;
+    private float period = 0.0f;
+    private float interval = 3f;
+    private bool shot = false;
     private void HandleControls()
     {
         if (isPlayer)
@@ -169,8 +172,18 @@ public class Cannon : MonoBehaviour
         //     _velocitySlider.setVelocityVal(_velocity);
         // }
         // }
-        if (Input.GetKeyUp(KeyCode.Space))
+        if (shot)
         {
+            if (period > interval)
+            {
+                shot = false;
+                period = 0;
+            }
+            period += Time.deltaTime;
+        }
+        if (Input.GetKeyUp(KeyCode.Space) && !shot)
+        {
+            shot = true;
             spawned = Instantiate(_ballPrefab, _ballSpawn.position, _ballSpawn.rotation);
             spawned.fromPlayer = isPlayer;
             if (isPlayer)

@@ -13,7 +13,7 @@ public class VelocitySlider : MonoBehaviour
     {
         _slider.onValueChanged.AddListener((v) =>
         {
-            _sliderText.text = "Velocidad\nInicial\n" + v.ToString("0.0") + " m/s";
+            _sliderText.text = "Velocidad\nInicial     \n" + v.ToString("0.0") + " m/s";
         });
     }
     public void setVelocityVal(float velocity)

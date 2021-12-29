@@ -8,6 +8,7 @@ TagManager:
   - Cannon
   - Island
   - Graph
+  - stopwatch
   layers:
   - Default
   - TransparentFX

@@ -39,10 +39,11 @@ public class Ball : MonoBehaviour
     private List<float> lsty;
     private List<float> intervalLst = new List<float>();
     private float period = 0.0f;
-    public float interval = 0.25f;
+    private float interval = 0.2f;
     private bool sent = false;
     // [SerializeField] private Transform player;
     [SerializeField] private WindowGraph graph;
+    bool timestart = false;
     void Update()
     {
         if (readyToDestroy || _rb.position.y < 0)
@@ -54,6 +55,11 @@ public class Ball : MonoBehaviour
             _destroyPeriod += Time.deltaTime;
             if (fromPlayer && !sent)
             {
+                var _stopwatch = GameObject.FindGameObjectsWithTag("stopwatch")[0].GetComponent<stopwatch>();
+                if (_stopwatch != null)
+                {
+                    _stopwatch.StopStopwatch();
+                }
                 var graph = GameObject.FindGameObjectsWithTag("Graph")[0].GetComponent<WindowGraph>();
                 if (graph != null)
                 {
@@ -64,6 +70,16 @@ public class Ball : MonoBehaviour
         }
         if (fromPlayer)
         {
+            if (timestart == false)
+            {
+                var _stopwatch = GameObject.FindGameObjectsWithTag("stopwatch")[0].GetComponent<stopwatch>();
+                if (_stopwatch != null)
+                {
+                    _stopwatch.ResetTime();
+                    _stopwatch.StartStopwatch();
+                }
+                timestart = true;
+            }
             if (period > interval && !sent)
             {
                 Debug.Log("Position Y: " + transform.position.y);

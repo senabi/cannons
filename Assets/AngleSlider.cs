@@ -13,7 +13,7 @@ public class AngleSlider : MonoBehaviour
     {
         _slider.onValueChanged.AddListener((v) =>
         {
-            _sliderText.text = "Angulo\n" + v.ToString();
+            _sliderText.text = "Angulo    \n" + v.ToString();
             // _barrelPivot.rotation.
             // Debug.Log("x: " + _barrelPivot.rotation.x + " " + "y: " + _barrelPivot.rotation.y + " " + "z: "  + _barrelPivot.rotation.z);
             // Debug.Log(_barrelPivot.rotation.ToString());
